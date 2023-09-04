@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-// Use Json middleware
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -12,14 +11,8 @@ let rooms = [];
 let reserva = [];
 
 
-
-
-app.get('/rooms', (req, res)=>{
-    res.send({"rooms":rooms})
-})
-
-app.post('/rooms', (req, res) => {
-    let i=1;
+//rooms 
+let i=1;
     while(i<3){
         let newRoom = {
             name: "room "+ i,
@@ -28,8 +21,31 @@ app.post('/rooms', (req, res) => {
         }
         i++
         rooms.push(newRoom)
-        res.send("¡Creación de sala exitosa!")
     }
+
+    
+//user
+usuarios.push({
+    nombre: "Bubu",
+    apellido: "Valencia",
+    id: "1",
+})
+
+
+//reserva
+reserva.push({
+    id_user: "105",
+    id_room: "1",
+    hour: "2:00",
+})
+
+
+app.get('/rooms', (req, res)=>{
+    res.send({"rooms":rooms})
+})
+
+app.post('/rooms', (req, res) => {
+    
 })
 
 app.get('/', (req, res)=>{
