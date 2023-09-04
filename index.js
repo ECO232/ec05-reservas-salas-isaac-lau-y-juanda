@@ -7,28 +7,21 @@ const port = 3000
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+let users = [];
+let rooms = [];
+let reserva = [];
+
+let i=1;
+while(i<3){
+    rooms.push({
+        id: i,
+        name: "room "+ i,
+        location: "10"+i+"L"
+    })
+    i++
+}
 
 
-const button = document.createElement("button");
-button.className("room1")
-const button2 = document.createElement("button");
-button2.className("room2")
-const button3 = document.createElement("button");
-button3.className("room3")
-const button4 = document.createElement("button");
-button4.className("room4")
-
-document.getElementById("rooms").appendChild(button);
-
-let users = []
-
-users.push({
-    name: "Pepito",
-    last: "Perez",
-    age: 26,
-    id: "1130613425",
-    email: "pperez@u.icesi.edu.co"
-})
 
 app.get('/users/:id', (req, res)=>{
     console.log("params:", req.params)
