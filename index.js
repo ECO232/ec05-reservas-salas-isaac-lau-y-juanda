@@ -11,52 +11,25 @@ let users = [];
 let rooms = [];
 let reserva = [];
 
-let i=1;
-while(i<3){
-    rooms.push({
-        id: i,
-        name: "room "+ i,
-        location: "10"+i+"L"
-    })
-    i++
-}
 
 
 
-app.get('/users/:id', (req, res)=>{
-    console.log("params:", req.params)
-    const requestID = req.params.id
-    let requiredUser = null;
-    for (let index = 0; index < users.length; index++) {
-        console.log(users[index].id === requestID, users[index].id, requestID)
-        if(users[index].id === requestID){
-            requiredUser = users[index];
+app.get('/rooms', (req, res)=>{
+    res.send({"rooms":rooms})
+})
+
+app.post('/rooms', (req, res) => {
+    let i=1;
+    while(i<3){
+        let newRoom = {
+            name: "room "+ i,
+            id: i,
+            location: "10"+i+"L"
         }
+        i++
+        rooms.push(newRoom)
+        res.send("¡Creación de sala exitosa!")
     }
-    console.log(requiredUser)
-    res.json(requiredUser)
-})
-
-
-app.get('/users', (req, res)=>{
-    if(req.query.age){
-        users = users.filter(
-            (user)=>{return user.age == req.query.age}
-        )
-    }
-    res.send({"users":users})
-})
-
-app.post('/users', (req, res) => {
-    let newUser = {
-        name:req.body.name,
-        last:req.body.last,
-        age:req.body.age,
-        id:req.body.id,
-        email:req.body.email
-    }
-    users.push(newUser)
-    res.send("¡Creación de usuario exitosa!")
 })
 
 app.get('/', (req, res)=>{
