@@ -10,6 +10,10 @@ const cors = require('cors');
 app.use(cors())
 
 const {validateUser} = require('./schemas/users')
+const {validateReserva} = require('./schemas/reservas')
+const {validateRoom} = require('./schemas/rooms')
+
+
 
 let users = [];
 let rooms = [];
@@ -32,8 +36,8 @@ let i=1;
 //user
 
 users.push({
-    nombre: "Bubu",
-    apellido: "Valencia",
+    name: "Bubu",
+    last: "Valencia",
     id: "1013463590",
 })
 
@@ -95,12 +99,53 @@ app.post('/users', (req, res) => {
     let newUser = {
         name:userValidationResult.data.name,
         last:userValidationResult.data.last,
-        age:userValidationResult.data.age,
         id:userValidationResult.data.id,
-        email:userValidationResult.data.email
     }
     users.push(newUser)    
     res.status(201).send({"message":"Creación Exitosa!", "user":newUser})
+})
+
+app.post('/rooms', (req, res) => {
+
+    const roomValidationResult = validateRoom(req.body)    
+    console.log("result", roomValidationResult.error)
+
+    if(roomValidationResult.error){
+        return res.status(400).send(
+            {message:JSON.parse(roomValidationResult.error.message)}
+        )
+    }
+
+    let newrooms = {
+        name:roomValidationResult.data.name,
+        id:roomValidationResult.data.id,
+        location:roomValidationResult.data.location,
+    }
+    
+    rooms.push(newrooms)    
+    res.status(201).send({"message":"Creación Exitosa!", "room":newrooms})
+})
+
+
+app.post('/reservas', (req, res) => {
+
+    const reservaValidationResult = validateReserva(req.body)    
+    console.log("result", reservaValidationResult.error)
+
+    if(reservaValidationResult.error){
+        return res.status(400).send(
+            {message:JSON.parse(reservaValidationResult.error.message)}
+        )
+    }
+
+    let newreservas = {
+        id_user:reservaValidationResult.data.id_user,
+        id_room:reservaValidationResult.data.id_room,
+        hour:reservaValidationResult.data.hour,
+        id:reservaValidationResult.data.id,
+    }
+    reservas.push(newreservas)    
+    res.status(201).send({"message":"Creación Exitosa!", "reserva":newreservas})
 })
 
 
