@@ -9,10 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require('cors'); 
 app.use(cors())
 
-
-
 const {validateUser} = require('./schemas/users')
-
 
 let users = [];
 let rooms = [];
@@ -39,7 +36,6 @@ users.push({
     apellido: "Valencia",
     id: "1013463590",
 })
-
 
 
 //reserva
@@ -137,8 +133,8 @@ app.delete('/rooms/:id', (req, res)=>{
 
 function borrarreserva(userDeleted){
     app.delete('/reservas/:id_user', (req, res)=>{
-        const idToDelete = req.params.id;
-        let indexToDelete = reservas.findIndex(reserva=>reserva.id==idToDelete)
+        const idToDelete = userDeleted;
+        let indexToDelete = reservas.findIndex(reserva=>reserva.id_user==idToDelete)
         let reservaDeleted = reservas.splice(indexToDelete, 1)
     
         res.send("Se eliminó correctamente el usuario y la sala: " + reservaDeleted[0].id)
